@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <h1>Health Risk Result</h1>
+
+    <h2>Risk Level: {{ risk }}</h2>
+
+    <h3>Health Recommendation:</h3>
+    <p>{{ advice }}</p>
+
+    <hr>
+
+    <h3>Patient Details</h3>
+    <p><b>Name:</b> {{ name }}</p>
+    <p><b>Patient ID:</b> {{ patient_id }}</p>
+    <p><b>Contact:</b> {{ contact }}</p>
+
+    <h3>Health Data</h3>
+    <p>Age: {{ age }}</p>
+    <p>BMI: {{ bmi }}</p>
+    <p>Heart Rate: {{ heart_rate }}</p>
+    <p>Sleep Hours: {{ sleep }}</p>
+    <p>Activity Level: {{ activity }}</p>
+
+    <hr>
+
+    <!-- ✅ DOWNLOAD PDF BUTTON -->
+    <form action="/download" method="GET">
+        <input type="hidden" name="name" value="{{ name }}">
+        <input type="hidden" name="patient_id" value="{{ patient_id }}">
+        <input type="hidden" name="contact" value="{{ contact }}">
+        <input type="hidden" name="age" value="{{ age }}">
+        <input type="hidden" name="bmi" value="{{ bmi }}">
+        <input type="hidden" name="heart_rate" value="{{ heart_rate }}">
+        <input type="hidden" name="sleep" value="{{ sleep }}">
+        <input type="hidden" name="activity" value="{{ activity }}">
+        <input type="hidden" name="risk" value="{{ risk }}">
+
+        <button type="submit">Download Report</button>
+    </form>
+
+    <br>
+
+    <a href="/">Check Another Patient</a>
+
+</body>
+</html>

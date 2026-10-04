@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Patient</title>
+</head>
+<body>
+
+<h2>Edit Patient Record</h2>
+
+<form action="/update/{{ record[0] }}" method="POST">
+
+    Name: <input type="text" name="name" value="{{ record[1] }}"><br><br>
+    Patient ID: <input type="text" name="patient_id" value="{{ record[2] }}"><br><br>
+    Contact: <input type="text" name="contact" value="{{ record[3] }}"><br><br>
+
+    Age: <input type="text" name="age" value="{{ record[4] }}"><br><br>
+    BMI: <input type="text" name="bmi" value="{{ record[5] }}"><br><br>
+    Heart Rate: <input type="text" name="heart_rate" value="{{ record[6] }}"><br><br>
+    Sleep Hours: <input type="text" name="sleep" value="{{ record[7] }}"><br><br>
+    Activity Level: <input type="text" name="activity" value="{{ record[8] }}"><br><br>
+
+    <button type="submit">Update</button>
+
+</form>
+
+</body>
+</html>

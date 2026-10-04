@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartHealth+</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>SmartHealth+ Health Check</h1>
+
+    <form action="/predict" method="post">
+
+        <label>Name:</label>
+        <input type="text" name="name" required><br><br>
+
+        <label>Patient ID:</label>
+        <input type="text" name="patient_id" required><br><br>
+
+        <label>Contact:</label>
+        <input type="text" name="contact" required><br><br>
+
+        Age: <input type="number" name="age" required><br>
+        BMI: <input type="number" step="0.1" name="bmi" required><br>
+        Heart Rate: <input type="number" name="heart_rate" required><br>
+        Sleep Hours: <input type="number" step="0.1" name="sleep" required><br>
+        Activity Level:
+        <input type="number" name="activity" min="0" max="2" required><br>
+
+        <button type="submit">Check Health</button>
+    </form>
+</body>
+</html>

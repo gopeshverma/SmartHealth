@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 95%;
+            margin: auto;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .stats {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            display: block;
+            margin: auto;
+        }
+
+        .form-box {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input, select, button {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .edit {
+            background-color: orange;
+            color: white;
+        }
+
+        .delete {
+            background-color: red;
+            color: white;
+        }
+
+        .topbar {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+            padding: 8px 14px;
+            background: #333;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Hospital Dashboard</h2>
+
+<div class="topbar">
+    <p><b>Logged in as:</b> {{ username }} ({{ role }})</p>
+    <a href="/logout" class="logout-btn">Logout</a>
+</div>
+
+<div class="stats">
+    <p><b>Average BMI:</b> {{ avg_bmi|default(0)|round(2) }}</p>
+    <p><b>Low Risk:</b> {{ low }}</p>
+    <p><b>Medium Risk:</b> {{ medium }}</p>
+    <p><b>High Risk:</b> {{ high }}</p>
+</div>
+
+<canvas id="riskChart" width="400" height="200"></canvas>
+
+<script>
+    var ctx = document.getElementById('riskChart').getContext('2d');
+
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Low Risk', 'Medium Risk', 'High Risk'],
+            datasets: [{
+                data: [{{ low }}, {{ medium }}, {{ high }}],
+                backgroundColor: ['green', 'orange', 'red']
+            }]
+        }
+    });
+</script>
+
+<br><br>
+
+<div class="form-box">
+    <form method="GET" action="/admin">
+        <input type="text" name="search" placeholder="Search by Name or Patient ID">
+        <select name="filter">
+            <option value="">All</option>
+            <option value="high">High Risk</option>
+            <option value="recent">Recent</option>
+        </select>
+        <button type="submit">Apply</button>
+    </form>
+</div>
+
+<h2>Patient Records</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Patient ID</th>
+        <th>Contact</th>
+        <th>Age</th>
+        <th>BMI</th>
+        <th>Heart Rate</th>
+        <th>Sleep</th>
+        <th>Activity</th>
+        <th>Risk</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for row in data %}
+    <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>{{ row[4] }}</td>
+        <td>{{ row[5] }}</td>
+        <td>{{ row[6] }}</td>
+        <td>{{ row[7] }}</td>
+        <td>{{ row[8] }}</td>
+        <td>{{ row[9] }}</td>
+
+        <td class="actions">
+            {% if role == "admin" or role == "doctor" %}
+                <a href="/edit/{{ row[0] }}" class="edit">Edit</a>
+            {% endif %}
+
+            {% if role == "admin" %}
+                <a href="/delete/{{ row[0] }}" class="delete"
+                   onclick="return confirm('Delete this record?')">Delete</a>
+            {% endif %}
+
+            {% if role == "staff" %}
+                <span>View Only</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
